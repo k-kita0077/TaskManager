@@ -10,6 +10,7 @@ import UIKit
 
 class DeleteTaskViewController: UIViewController {
 
+    @IBOutlet weak var deleteTaskTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
