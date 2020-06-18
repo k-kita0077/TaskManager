@@ -13,8 +13,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var sectionList: [String] = []
     var taskList: [[TaskInfo]] = []
-    var listReconstruction: ListReconstruction = ListReconstruction()
     var getData: [TaskInfo] = []
+    var batchCount: Int = 0
+    var userDefaultKey: String = "deleteTask"
+    
+    //var listReconstruction: ListReconstruction = ListReconstruction()
+    var getTaskData: GetTaskData = GetTaskData()
+    var postStatus: PostStatus = PostStatus()
+    
     
     var dateTime: Date!
     var unixtime: TimeInterval!
@@ -28,15 +34,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-        //APIでデータ取得
-        getData = GetTaskData.sharedIntance.getArticles(status: "open")
-        dump(getData)
         
-        listReconstruction.delegate = self
+        //APIでデータ取得
+        getData = getTaskData.getArticles(status: "open")
+        //dump(getData)
+        
+        ListReconstruction.sharedIntance.delegate = self
         //リストを成形
-        let reconstruction = listReconstruction.reconstruction()
-        sectionList =  reconstruction.openSectionList
-        taskList = reconstruction.openTaskList
+        ListReconstruction.sharedIntance.reconstruction()
+        sectionList =  ListReconstruction.sharedIntance.openSectionList
+        taskList = ListReconstruction.sharedIntance.openTaskList
         
         dateTime = Date()
         unixtime = TimeInterval(dateTime.timeIntervalSince1970)
@@ -45,6 +52,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         taskListTableView.dataSource = self
         
         configureTableViewCell()
+        
+        batchCount = 0
+        for array in taskList {
+            for data in array {
+                guard let limitTime = data.limitTime else {return}
+                let dateUnix: TimeInterval = TimeInterval(limitTime)
+                if dateUnix < (unixtime + 259200) {
+                    batchCount += 1
+                }
+            }
+        }
+        if let tabItem = self.tabBarController?.tabBar.items?[0] {
+            tabItem.badgeValue = String(batchCount)
+        }
+        
+        if let userDefaultData = UserDefaults.standard.array(forKey: self.userDefaultKey) {
+            dump(userDefaultData)
+        }
+        
+        taskListTableView.reloadData()
     }
     
     func configureTableViewCell() {
@@ -84,12 +111,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             formatter.dateFormat = "yyyy/MM/dd"
             let dateStr: String = formatter.string(from: date as Date)
             cell.limitTimeLabel.text = dateStr
-            print(unixtime!)
-            print(dateUnix)
             if dateUnix < unixtime {
-                cell.contentView.backgroundColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 0.5)
+                cell.contentView.backgroundColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 0.2)
             } else if dateUnix < (unixtime + 259200) {
-                cell.contentView.backgroundColor = UIColor(red: 0.0, green: 0.502, blue: 1.0, alpha: 0.5)
+                cell.contentView.backgroundColor = UIColor(red: 0.0, green: 0.502, blue: 1.0, alpha: 0.2)
             } else {
                 cell.contentView.backgroundColor = UIColor.white
             }
@@ -110,5 +135,55 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    //スワイプアクション
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        // 削除のアクションを設定する
+        let deleteAction = UIContextualAction(style: .destructive, title:"delete") {
+            (ctxAction, view, completionHandler) in
+            //ユーザーデフォルトに削除したタスクのID登録
+            var userDefaultArray: [Int] = []
+            if let userDefaultData = UserDefaults.standard.array(forKey: self.userDefaultKey) {
+                userDefaultArray = userDefaultData as! [Int]
+            }
+            //dump(userDefaultArray)
+            //dump(self.taskList[indexPath.section][indexPath.row].taskID)
+            userDefaultArray.append(self.taskList[indexPath.section][indexPath.row].taskID!)
+            UserDefaults.standard.set(userDefaultArray, forKey: self.userDefaultKey)
+            
+            self.taskList[indexPath.section].remove(at: indexPath.row)
+            ListReconstruction.sharedIntance.openTaskList[indexPath.section].remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completionHandler(true)
+        }
+        // 削除ボタンのデザインを設定する
+        let trashImage = UIImage(systemName: "trash.fill")?.withTintColor(UIColor.white , renderingMode: .alwaysTemplate)
+        deleteAction.image = trashImage
+        deleteAction.backgroundColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
+        
+        // 完了のアクションを設定する
+        let shareAction = UIContextualAction(style: .normal  , title: "comp") {
+            (ctxAction, view, completionHandler) in
+            print("完了にする")
+            //chatworkのタスクを完了にする
+            let list: TaskInfo = self.taskList[indexPath.section][indexPath.row]
+            self.postStatus.HttpRequest(taskInfo: list, status: "done")
+            self.taskList[indexPath.section].remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completionHandler(true)
+        }
+        // 完了ボタンのデザインを設定する
+        let shareImage = UIImage(systemName: "checkmark.shield.fill")?.withTintColor(UIColor.white, renderingMode: .alwaysTemplate)
+        shareAction.image = shareImage
+        shareAction.backgroundColor = UIColor(red: 0/255, green: 125/255, blue: 255/255, alpha: 1)
+        
+        // スワイプでの削除を無効化して設定する
+        let swipeAction = UISwipeActionsConfiguration(actions:[shareAction, deleteAction])
+        swipeAction.performsFirstActionWithFullSwipe = false
+        
+        return swipeAction
+        
+    }
     
 }

@@ -14,8 +14,14 @@ protocol ListReconstructionDelegate: class {
 
 class ListReconstruction {
 
+    static let sharedIntance = ListReconstruction()
+    
     weak var delegate: ListReconstructionDelegate?
 
+    var openSectionList: [String] = []
+    var openTaskList: [[TaskInfo]] = []
+    var doneSectionList: [String] = []
+    var doneTaskList: [[TaskInfo]] = []
     
     //渡されたリストを完了、未完に振り分け
     func separation()  -> (openTask: [TaskInfo], doneTask: [TaskInfo]){
@@ -64,20 +70,19 @@ class ListReconstruction {
     }
     
     //実行
-    func reconstruction() -> (openSectionList: [String], openTaskList: [[TaskInfo]], doneSectionList: [String], doneTaskList: [[TaskInfo]]) {
+    func reconstruction() {
         let sep = separation()
         let openTask: [TaskInfo] = sep.openTask
         let doneTask: [TaskInfo] = sep.doneTask
         
         let open = molding(task: openTask)
-        let openSectionList: [String] = open.sectionList
-        let openTaskList: [[TaskInfo]] = open.taskList
+        self.openSectionList = open.sectionList
+        self.openTaskList = open.taskList
         
         let done = molding(task: doneTask)
-        let doneSectionList: [String] = done.sectionList
-        let doneTaskList: [[TaskInfo]] = done.taskList
+        self.doneSectionList = done.sectionList
+        self.doneTaskList = done.taskList
         
-        return (openSectionList, openTaskList, doneSectionList, doneTaskList)
     }
     
    

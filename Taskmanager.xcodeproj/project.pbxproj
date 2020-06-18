@@ -22,6 +22,8 @@
 		7953A10C249A001900719283 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7953A10A249A001900719283 /* LaunchScreen.storyboard */; };
 		7970D5FE249B65050098BCC4 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7970D5FC249B65050098BCC4 /* TaskDetailViewController.swift */; };
 		7970D5FF249B65050098BCC4 /* TaskDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7970D5FD249B65050098BCC4 /* TaskDetailViewController.xib */; };
+		7970D601249B77E90098BCC4 /* PostStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7970D600249B77E90098BCC4 /* PostStatus.swift */; };
+		7970D603249B91120098BCC4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7970D602249B91120098BCC4 /* TabBarController.swift */; };
 		DAD342A5F6D9750E34777AF4 /* Pods_Taskmanager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5161B79CDECF9ED14AA0ED /* Pods_Taskmanager.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +47,8 @@
 		7953A10D249A001900719283 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7970D5FC249B65050098BCC4 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		7970D5FD249B65050098BCC4 /* TaskDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskDetailViewController.xib; sourceTree = "<group>"; };
+		7970D600249B77E90098BCC4 /* PostStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStatus.swift; sourceTree = "<group>"; };
+		7970D602249B91120098BCC4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		80413056793B3DB151EF6C4F /* Pods-Taskmanager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taskmanager.release.xcconfig"; path = "Target Support Files/Pods-Taskmanager/Pods-Taskmanager.release.xcconfig"; sourceTree = "<group>"; };
 		AE5161B79CDECF9ED14AA0ED /* Pods_Taskmanager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Taskmanager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -67,6 +71,7 @@
 				7953A103249A001700719283 /* ViewController.swift */,
 				790B4391249A06A800FA3246 /* CompTaskViewController.swift */,
 				790B4393249A06BB00FA3246 /* DeleteTaskViewController.swift */,
+				7970D602249B91120098BCC4 /* TabBarController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -77,6 +82,7 @@
 				790B4395249A0CBB00FA3246 /* TaskInfo.swift */,
 				790B4397249A3A6900FA3246 /* GetTaskData.swift */,
 				790B439D249A5AB800FA3246 /* ListReconstruction.swift */,
+				7970D600249B77E90098BCC4 /* PostStatus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +276,8 @@
 				7953A102249A001700719283 /* SceneDelegate.swift in Sources */,
 				790B4396249A0CBB00FA3246 /* TaskInfo.swift in Sources */,
 				790B4394249A06BB00FA3246 /* DeleteTaskViewController.swift in Sources */,
+				7970D603249B91120098BCC4 /* TabBarController.swift in Sources */,
+				7970D601249B77E90098BCC4 /* PostStatus.swift in Sources */,
 				790B4398249A3A6900FA3246 /* GetTaskData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class GetTaskData {
-    static let sharedIntance = GetTaskData()
+    //static let sharedIntance = GetTaskData()
     
     var articles: [TaskInfo] = []
     //var sectionList: [String] = []

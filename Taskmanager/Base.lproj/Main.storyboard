@@ -139,7 +139,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Yca-bP-psx">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="gmN-AR-VgR" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="gmN-AR-VgR" customClass="TabBarController" customModule="Taskmanager" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kEg-41-oG1">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

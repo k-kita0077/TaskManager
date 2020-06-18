@@ -12,8 +12,13 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
 
     var sectionList: [String] = []
     var taskList: [[TaskInfo]] = []
-    var listReconstruction: ListReconstruction = ListReconstruction()
     var getData: [TaskInfo] = []
+    var userDefaultKey: String = "deleteTask"
+    
+    var getTaskData: GetTaskData = GetTaskData()
+    var postStatus: PostStatus = PostStatus()
+    //var listReconstruction: ListReconstruction = ListReconstruction()
+    
 
     @IBOutlet weak var compTaskTableView: UITableView!
     
@@ -24,19 +29,23 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-        getData = GetTaskData.sharedIntance.getArticles(status: "done")
-        dump(getData)
         
-        listReconstruction.delegate = self
+        
+        getData = getTaskData.getArticles(status: "done")
+        //dump(getData)
+        
+        ListReconstruction.sharedIntance.delegate = self
         //リストを成形
-        let reconstruction = listReconstruction.reconstruction()
-        sectionList =  reconstruction.doneSectionList
-        taskList = reconstruction.doneTaskList
+        ListReconstruction.sharedIntance.reconstruction()
+        sectionList =  ListReconstruction.sharedIntance.doneSectionList
+        taskList = ListReconstruction.sharedIntance.doneTaskList
         
         compTaskTableView.delegate = self
         compTaskTableView.dataSource = self
         
         configureTableViewCell()
+        
+        compTaskTableView.reloadData()
     }
     
     
@@ -92,6 +101,33 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
         vc.TaskInfo = taskList[indexPath.section][indexPath.row]
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    //スワイプアクション
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+      
+        // 未完了のアクションを設定する
+        let shareAction = UIContextualAction(style: .normal  , title: "uncomp") {
+            (ctxAction, view, completionHandler) in
+            print("未完了にする")
+            //chatworkのタスクを未完了にする
+            let list: TaskInfo = self.taskList[indexPath.section][indexPath.row]
+            self.postStatus.HttpRequest(taskInfo: list, status: "open")
+            self.taskList[indexPath.section].remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completionHandler(true)
+        }
+        // 未完了ボタンのデザインを設定する
+        let shareImage = UIImage(systemName: "clock")?.withTintColor(UIColor.white, renderingMode: .alwaysTemplate)
+        shareAction.image = shareImage
+        shareAction.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 0/255, alpha: 1)
+    
+        // スワイプでの削除を無効化して設定する
+        let swipeAction = UISwipeActionsConfiguration(actions:[shareAction])
+        swipeAction.performsFirstActionWithFullSwipe = false
+        
+        return swipeAction
+        
     }
 
 }
