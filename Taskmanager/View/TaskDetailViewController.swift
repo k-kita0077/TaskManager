@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LTMorphingLabel
 
 class TaskDetailViewController: UIViewController {
     @IBOutlet weak var sectionLabel: UILabel!
@@ -14,10 +15,15 @@ class TaskDetailViewController: UIViewController {
     @IBOutlet weak var limitTimeLabel: UILabel!
     @IBOutlet weak var detailLabel: UITextView!
     
+    //@IBOutlet weak var groupLabel: LTMorphingLabel!
+    
+    
     var TaskInfo: TaskInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //groupLabel.morphingEffect = .scale
+        
         guard let taskInfo = TaskInfo else {return}
         
         sectionLabel.text = taskInfo.sectionTitle

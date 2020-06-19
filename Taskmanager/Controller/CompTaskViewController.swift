@@ -18,18 +18,34 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
     var getTaskData: GetTaskData = GetTaskData()
     var postStatus: PostStatus = PostStatus()
     //var listReconstruction: ListReconstruction = ListReconstruction()
-    
+    var activityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var compTaskTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .whiteLarge
+        activityIndicatorView.color = .purple
+        
+        view.addSubview(activityIndicatorView)
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-        
+        // アニメーション開始
+        activityIndicatorView.startAnimating()
+
+        DispatchQueue.global(qos: .default).async {
+            Thread.sleep(forTimeInterval: 1.5)
+
+            DispatchQueue.main.async {
+                // アニメーション終了
+                self.activityIndicatorView.stopAnimating()
+            }
+        }
         
         getData = getTaskData.getArticles(status: "open")
         let addData = getTaskData.getArticles(status: "done")

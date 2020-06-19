@@ -16,15 +16,34 @@ class DeleteTaskViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var taskList: [TaskInfo] = []
     
+    var activityIndicatorView = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .whiteLarge
+        activityIndicatorView.color = .purple
+        
+        view.addSubview(activityIndicatorView)
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
        
+        // アニメーション開始
+        activityIndicatorView.startAnimating()
+
+        DispatchQueue.global(qos: .default).async {
+            Thread.sleep(forTimeInterval: 1.5)
+
+            DispatchQueue.main.async {
+                // アニメーション終了
+                self.activityIndicatorView.stopAnimating()
+            }
+        }
+        
         taskList = ListReconstruction.sharedIntance.daleteTaskList
         
         deleteTaskTableView.delegate = self

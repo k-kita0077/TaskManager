@@ -8,4 +8,5 @@ target 'Taskmanager' do
   # Pods for Taskmanager
   pod 'Alamofire', '~> 5.2'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'LTMorphingLabel'
 end
