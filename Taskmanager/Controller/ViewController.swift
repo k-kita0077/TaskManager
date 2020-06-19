@@ -37,6 +37,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //APIでデータ取得
         getData = getTaskData.getArticles(status: "open")
+        let addData = getTaskData.getArticles(status: "done")
+        getData.append(contentsOf: addData)
         //dump(getData)
         
         ListReconstruction.sharedIntance.delegate = self
@@ -141,6 +143,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // 削除のアクションを設定する
         let deleteAction = UIContextualAction(style: .destructive, title:"delete") {
             (ctxAction, view, completionHandler) in
+            //削除したデータを削除リストに追加
+            ListReconstruction.sharedIntance.daleteTaskList.append(self.taskList[indexPath.section][indexPath.row])
             //ユーザーデフォルトに削除したタスクのID登録
             var userDefaultArray: [Int] = []
             if let userDefaultData = UserDefaults.standard.array(forKey: self.userDefaultKey) {

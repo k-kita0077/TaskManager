@@ -14,6 +14,8 @@
 		790B439B249A514B00FA3246 /* TaskListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790B4399249A514B00FA3246 /* TaskListTableViewCell.swift */; };
 		790B439C249A514B00FA3246 /* TaskListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 790B439A249A514B00FA3246 /* TaskListTableViewCell.xib */; };
 		790B439E249A5AB800FA3246 /* ListReconstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790B439D249A5AB800FA3246 /* ListReconstruction.swift */; };
+		793A46B0249CDDE800DC712B /* DeleteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793A46AE249CDDE800DC712B /* DeleteTableViewCell.swift */; };
+		793A46B1249CDDE800DC712B /* DeleteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 793A46AF249CDDE800DC712B /* DeleteTableViewCell.xib */; };
 		7953A100249A001700719283 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953A0FF249A001700719283 /* AppDelegate.swift */; };
 		7953A102249A001700719283 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953A101249A001700719283 /* SceneDelegate.swift */; };
 		7953A104249A001700719283 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953A103249A001700719283 /* ViewController.swift */; };
@@ -37,6 +39,8 @@
 		790B439A249A514B00FA3246 /* TaskListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskListTableViewCell.xib; sourceTree = "<group>"; };
 		790B439D249A5AB800FA3246 /* ListReconstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListReconstruction.swift; sourceTree = "<group>"; };
 		790B439F249A696400FA3246 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		793A46AE249CDDE800DC712B /* DeleteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTableViewCell.swift; sourceTree = "<group>"; };
+		793A46AF249CDDE800DC712B /* DeleteTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeleteTableViewCell.xib; sourceTree = "<group>"; };
 		7953A0FC249A001700719283 /* Taskmanager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskmanager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7953A0FF249A001700719283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7953A101249A001700719283 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 		790B4390249A049100FA3246 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				793A46AE249CDDE800DC712B /* DeleteTableViewCell.swift */,
+				793A46AF249CDDE800DC712B /* DeleteTableViewCell.xib */,
 				790B4399249A514B00FA3246 /* TaskListTableViewCell.swift */,
 				790B439A249A514B00FA3246 /* TaskListTableViewCell.xib */,
 				7970D5FC249B65050098BCC4 /* TaskDetailViewController.swift */,
@@ -212,6 +218,7 @@
 			files = (
 				7970D5FF249B65050098BCC4 /* TaskDetailViewController.xib in Resources */,
 				790B439C249A514B00FA3246 /* TaskListTableViewCell.xib in Resources */,
+				793A46B1249CDDE800DC712B /* DeleteTableViewCell.xib in Resources */,
 				7953A10C249A001900719283 /* LaunchScreen.storyboard in Resources */,
 				7953A109249A001900719283 /* Assets.xcassets in Resources */,
 				7953A107249A001700719283 /* Main.storyboard in Resources */,
@@ -272,6 +279,7 @@
 				7953A104249A001700719283 /* ViewController.swift in Sources */,
 				7953A100249A001700719283 /* AppDelegate.swift in Sources */,
 				7970D5FE249B65050098BCC4 /* TaskDetailViewController.swift in Sources */,
+				793A46B0249CDDE800DC712B /* DeleteTableViewCell.swift in Sources */,
 				790B439E249A5AB800FA3246 /* ListReconstruction.swift in Sources */,
 				7953A102249A001700719283 /* SceneDelegate.swift in Sources */,
 				790B4396249A0CBB00FA3246 /* TaskInfo.swift in Sources */,

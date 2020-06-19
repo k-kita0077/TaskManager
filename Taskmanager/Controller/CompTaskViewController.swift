@@ -31,7 +31,9 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
     super.viewWillAppear(animated)
         
         
-        getData = getTaskData.getArticles(status: "done")
+        getData = getTaskData.getArticles(status: "open")
+        let addData = getTaskData.getArticles(status: "done")
+        getData.append(contentsOf: addData)
         //dump(getData)
         
         ListReconstruction.sharedIntance.delegate = self
@@ -105,7 +107,33 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
     
     //スワイプアクション
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-      
+        //削除したデータを削除リストに追加
+        ListReconstruction.sharedIntance.daleteTaskList.append(self.taskList[indexPath.section][indexPath.row])
+        
+        // 削除のアクションを設定する
+        let deleteAction = UIContextualAction(style: .destructive, title:"delete") {
+            (ctxAction, view, completionHandler) in
+            //ユーザーデフォルトに削除したタスクのID登録
+            var userDefaultArray: [Int] = []
+            if let userDefaultData = UserDefaults.standard.array(forKey: self.userDefaultKey) {
+                userDefaultArray = userDefaultData as! [Int]
+            }
+            //dump(userDefaultArray)
+            //dump(self.taskList[indexPath.section][indexPath.row].taskID)
+            userDefaultArray.append(self.taskList[indexPath.section][indexPath.row].taskID!)
+            UserDefaults.standard.set(userDefaultArray, forKey: self.userDefaultKey)
+            
+            self.taskList[indexPath.section].remove(at: indexPath.row)
+            ListReconstruction.sharedIntance.doneTaskList[indexPath.section].remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completionHandler(true)
+        }
+        // 削除ボタンのデザインを設定する
+        let trashImage = UIImage(systemName: "trash.fill")?.withTintColor(UIColor.white , renderingMode: .alwaysTemplate)
+        deleteAction.image = trashImage
+        deleteAction.backgroundColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
+        
         // 未完了のアクションを設定する
         let shareAction = UIContextualAction(style: .normal  , title: "uncomp") {
             (ctxAction, view, completionHandler) in
@@ -123,7 +151,7 @@ class CompTaskViewController: UIViewController, UITableViewDelegate, UITableView
         shareAction.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 0/255, alpha: 1)
     
         // スワイプでの削除を無効化して設定する
-        let swipeAction = UISwipeActionsConfiguration(actions:[shareAction])
+        let swipeAction = UISwipeActionsConfiguration(actions:[shareAction, deleteAction])
         swipeAction.performsFirstActionWithFullSwipe = false
         
         return swipeAction
